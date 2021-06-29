@@ -76,6 +76,7 @@ func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResp
 	h := sha256.New()
 	h.Write(req.GetValue().Value)
 	hash := fmt.Sprintf("%x", h.Sum(nil))
+	s.Log(fmt.Sprintf("HASH %v", hash))
 
 	err := s.writeToDir(req.GetKey(), string(h.Sum(nil)), &pb.ReadResponse{
 		Hash:      hash,
