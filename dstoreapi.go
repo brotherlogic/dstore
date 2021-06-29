@@ -7,8 +7,6 @@ import (
 	"time"
 
 	"golang.org/x/net/context"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 
 	pb "github.com/brotherlogic/dstore/proto"
 )
@@ -23,10 +21,10 @@ func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadRespons
 	dir, file := extractFilename(req.GetKey())
 	resp, err := s.readFile(dir, file, req.GetHash())
 
-	code := status.Convert(err)
-	if code.Code() != codes.OK && code.Code() != codes.NotFound {
+	if err != nil {
 		return nil, err
 	}
+
 	hashMap := make(map[string]*pb.ReadResponse)
 	hashMap[resp.GetHash()] = resp
 	countMap := make(map[string]int)
@@ -35,7 +33,7 @@ func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadRespons
 	bestHash := resp.GetHash()
 	friends := []string{"me"}
 
-	s.Log(fmt.Sprintf("FANOUT at %v from %v", !req.NoFanout, resp.GetHash()))
+	s.Log(fmt.Sprintf("FANOUT at %v from %v but readd reported %v", !req.NoFanout, resp.GetHash(), err))
 	if !req.NoFanout {
 		req.NoFanout = true
 		friends, err = s.FFind(ctx, "dstore")
