@@ -38,7 +38,7 @@ func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadRespons
 	s.Log(fmt.Sprintf("FANOUT at %v from %v", !req.NoFanout, resp.GetHash()))
 	if !req.NoFanout {
 		req.NoFanout = true
-		friends, err := s.FFind(ctx, "dstore")
+		friends, err = s.FFind(ctx, "dstore")
 		if err == nil {
 			for _, friend := range friends {
 				conn, err := s.FDialSpecificServer(ctx, "dstore", friend)
