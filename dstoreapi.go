@@ -15,9 +15,9 @@ import (
 
 //Read reads out some data
 func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadResponse, error) {
-	//Push the hash if we don't have one
+	//Get the latest item if we don't have hash
 	if req.GetHash() == "" {
-		req.Hash = s.translate[req.GetKey()]
+		req.Hash = "latest"
 	}
 
 	dir, file := extractFilename(req.GetKey())
