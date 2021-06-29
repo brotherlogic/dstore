@@ -7,6 +7,8 @@ import (
 	"time"
 
 	"golang.org/x/net/context"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 
 	pb "github.com/brotherlogic/dstore/proto"
 )
@@ -21,19 +23,19 @@ func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadRespons
 	dir, file := extractFilename(req.GetKey())
 	resp, err := s.readFile(dir, file, req.GetHash())
 
-	if err != nil {
-		return nil, err
-	}
-
 	hashMap := make(map[string]*pb.ReadResponse)
-	hashMap[resp.GetHash()] = resp
 	countMap := make(map[string]int)
-	countMap[resp.GetHash()] = 1
+
 	bestCount := 1
-	bestHash := resp.GetHash()
+	bestHash := ""
 	friends := []string{"me"}
 
-	s.Log(fmt.Sprintf("FANOUT at %v from %v but readd reported %v", !req.NoFanout, resp.GetHash(), err))
+	if err == nil {
+		hashMap[resp.GetHash()] = resp
+		countMap[resp.GetHash()] = 1
+		bestHash = resp.GetHash()
+	}
+
 	if !req.NoFanout {
 		req.NoFanout = true
 		friends, err = s.FFind(ctx, "dstore")
@@ -59,6 +61,11 @@ func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadRespons
 				}
 			}
 		}
+	}
+
+	// If we've read nothing return not found
+	if bestHash == "" {
+		return nil, status.Errorf(codes.NotFound, "Cannot locate %v", req.GetKey())
 	}
 
 	//Let's get a consensus on the latest
