@@ -104,7 +104,12 @@ func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResp
 					conn, err := s.FDialSpecificServer(ctx, "dtore", friend)
 					if err == nil {
 						client := pb.NewDStoreServiceClient(conn)
-						client.Write(ctx, req)
+						_, err := client.Write(ctx, req)
+						if err != nil {
+							s.Log(fmt.Sprintf("Fanout failure: %v", err))
+						} else {
+							count++
+						}
 					}
 				}
 			}

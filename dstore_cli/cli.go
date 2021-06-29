@@ -28,7 +28,7 @@ func main() {
 	}
 
 	//rand.Shuffle(len(all), func(i, j int) { all[i], all[j] = all[j], all[i] })
-	chosen := all[0]
+	chosen := all[1]
 	fmt.Printf("Writing to %v\n", chosen)
 	conn, err := grpc.Dial(fmt.Sprintf("%v:%v", chosen.Identifier, chosen.Port), grpc.WithInsecure())
 	if err != nil {
@@ -44,7 +44,7 @@ func main() {
 		res, err := client.Write(ctx, &pb.WriteRequest{Key: os.Args[2], Value: &google_protobuf.Any{Value: []byte(os.Args[3])}})
 		fmt.Printf("%v -> %v\n", res, err)
 	case "read":
-		res, err := client.Read(ctx, &pb.ReadRequest{Key: os.Args[2], NoFanout: true})
+		res, err := client.Read(ctx, &pb.ReadRequest{Key: os.Args[2]})
 		fmt.Printf("%v -> %v\n", res, err)
 	}
 
