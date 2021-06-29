@@ -34,27 +34,29 @@ func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadRespons
 	bestCount := 1
 	bestHash := resp.GetHash()
 
-	req.NoFanout = true
-	friends, err := s.FFind(ctx, "dstore")
-	if err == nil {
-		for _, friend := range friends {
-			conn, err := s.FDialSpecificServer(ctx, "dstore", friend)
-			if err == nil {
-				client := pb.NewDStoreServiceClient(conn)
-
-				read, err := client.Read(ctx, req)
+	if !req.NoFanout {
+		req.NoFanout = true
+		friends, err := s.FFind(ctx, "dstore")
+		if err == nil {
+			for _, friend := range friends {
+				conn, err := s.FDialSpecificServer(ctx, "dstore", friend)
 				if err == nil {
-					if _, ok := hashMap[read.GetHash()]; !ok {
-						hashMap[read.GetHash()] = read
-					}
+					client := pb.NewDStoreServiceClient(conn)
 
-					countMap[read.GetHash()]++
-					if countMap[read.GetHash()] > bestCount {
-						bestCount = countMap[read.GetHash()]
-						bestHash = read.GetHash()
+					read, err := client.Read(ctx, req)
+					if err == nil {
+						if _, ok := hashMap[read.GetHash()]; !ok {
+							hashMap[read.GetHash()] = read
+						}
+
+						countMap[read.GetHash()]++
+						if countMap[read.GetHash()] > bestCount {
+							bestCount = countMap[read.GetHash()]
+							bestHash = read.GetHash()
+						}
 					}
+					conn.Close()
 				}
-				conn.Close()
 			}
 		}
 	}
