@@ -26,7 +26,7 @@ func (s *Server) deleteFile(dir, file string) {
 }
 
 func (s *Server) readFile(dir, key, hash string) (*pb.ReadResponse, error) {
-	data, err := ioutil.ReadFile(s.basepath + key + "." + hash)
+	data, err := ioutil.ReadFile(s.basepath + key + "/" + hash)
 
 	if err != nil {
 		if os.IsNotExist(err) {
@@ -37,10 +37,6 @@ func (s *Server) readFile(dir, key, hash string) (*pb.ReadResponse, error) {
 	}
 
 	result := &pb.ReadResponse{}
-	err = proto.Unmarshal(data, result)
-	if err != nil {
-		return nil, err
-	}
 	err = proto.Unmarshal(data, result)
 	if err != nil {
 		return nil, err
@@ -57,11 +53,11 @@ func (s *Server) writeToDir(dir, file string, toWrite *pb.ReadResponse, lnfile s
 	}
 
 	os.MkdirAll(s.basepath+dir, 0777)
-	err = ioutil.WriteFile(fmt.Sprintf("%v%v%v", s.basepath, dir, file), data, 0644)
+	err = ioutil.WriteFile(fmt.Sprintf("%v%v/%v", s.basepath, dir, file), data, 0644)
 	if len(lnfile) > 0 && err == nil {
 		//Silent delete of existing symlink
-		os.Remove(fmt.Sprintf("%v%v%v", s.basepath, dir, lnfile))
-		err = os.Symlink(fmt.Sprintf("%v", file), fmt.Sprintf("%v%v%v", s.basepath, dir, lnfile))
+		os.Remove(fmt.Sprintf("%v%v/%v", s.basepath, dir, lnfile))
+		err = os.Symlink(fmt.Sprintf("%v", file), fmt.Sprintf("%v%v/%v", s.basepath, dir, lnfile))
 	}
 	return err
 }
