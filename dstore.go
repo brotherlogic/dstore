@@ -69,7 +69,7 @@ func main() {
 	server.PrepServer()
 	server.Register = server
 
-	err := server.RegisterServerV2("datastore", false, true)
+	err := server.RegisterServerV2("dstore", false, true)
 	if err != nil {
 		return
 	}
