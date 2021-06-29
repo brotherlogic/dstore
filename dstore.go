@@ -25,7 +25,7 @@ type Server struct {
 func Init() *Server {
 	s := &Server{
 		GoServer:  &goserver.GoServer{},
-		basepath:  "/media/datastore/dstore",
+		basepath:  "/media/datastore/dstore/",
 		translate: make(map[string]string),
 	}
 	return s
