@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package dstore;
+
+import "github.com/protocolbuffers/protobuf/src/google/protobuf/any.proto";
+
+option go_package = "github.com/brotherlogic/dstore/proto";
+
+message ReadRequest {
+  string key = 1;
+  string hash = 2;
+  bool no_fanout = 3;
+}
+ 
+message ReadResponse {
+  google.protobuf.Any value = 1;
+  string hash = 2;
+  int64 timestamp = 3;
+  float consensus = 4;
+}
+
+message WriteRequest {
+  string key = 1;
+  google.protobuf.Any value = 2;
+  bool no_fanout = 3;
+}
+
+message WriteResponse {
+  float consensus = 1;
+}
+
+service DStoreService {
+  rpc Read (ReadRequest) returns (ReadResponse) {};
+  rpc Write (WriteRequest) returns (WriteResponse) {};
+}
