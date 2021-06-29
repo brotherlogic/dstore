@@ -110,6 +110,7 @@ func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResp
 						} else {
 							count++
 						}
+						conn.Close()
 					}
 				}
 			}
