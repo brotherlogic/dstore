@@ -33,6 +33,7 @@ func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadRespons
 	countMap[resp.GetHash()] = 1
 	bestCount := 1
 	bestHash := resp.GetHash()
+	friends := []string{"me"}
 
 	if !req.NoFanout {
 		req.NoFanout = true
