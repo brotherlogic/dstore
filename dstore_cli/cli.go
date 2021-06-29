@@ -28,7 +28,7 @@ func main() {
 	}
 
 	//rand.Shuffle(len(all), func(i, j int) { all[i], all[j] = all[j], all[i] })
-	chosen := all[0]
+	chosen := all[1]
 	fmt.Printf("Writing to %v\n", chosen)
 	conn, err := grpc.Dial(fmt.Sprintf("%v:%v", chosen.Identifier, chosen.Port), grpc.WithInsecure())
 	if err != nil {

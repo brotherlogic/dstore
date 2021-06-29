@@ -35,7 +35,7 @@ func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadRespons
 	bestHash := resp.GetHash()
 	friends := []string{"me"}
 
-	s.Log(fmt.Sprintf("FANOUT is happening %v", !req.NoFanout))
+	s.Log(fmt.Sprintf("FANOUT at %v", !req.NoFanout))
 	if !req.NoFanout {
 		req.NoFanout = true
 		friends, err := s.FFind(ctx, "dstore")
