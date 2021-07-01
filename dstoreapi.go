@@ -115,6 +115,7 @@ func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResp
 				}
 			}
 		}
+		s.Log(fmt.Sprintf("Written to %v with %v", count, friends))
 		return &pb.WriteResponse{Consensus: float32(count) / float32(len(friends))}, nil
 	}
 
