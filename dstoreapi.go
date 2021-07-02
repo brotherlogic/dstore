@@ -107,6 +107,7 @@ func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResp
 					if err == nil {
 						client := pb.NewDStoreServiceClient(conn)
 						_, err := client.Write(ctx, req)
+						s.Log(fmt.Sprintf("I'VE READ FROM %v -> %v", friend, err))
 						if err != nil {
 							s.Log(fmt.Sprintf("Fanout failure: %v", err))
 						} else {
