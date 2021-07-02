@@ -41,7 +41,7 @@ func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadRespons
 		friends, err = s.FFind(ctx, "dstore")
 		if err == nil {
 			for _, friend := range friends {
-				conn, err := s.FDialSpecificServer(ctx, "dstore", friend)
+				conn, err := s.FDial(friend)
 				if err == nil {
 					client := pb.NewDStoreServiceClient(conn)
 
@@ -102,21 +102,19 @@ func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResp
 		if err == nil {
 			req.NoFanout = true
 			for _, friend := range friends {
-				if !strings.Contains(friend, s.Registry.Identifier) {
-					conn, err := s.FDialSpecificServer(ctx, "dstore", friend)
-					if err == nil {
-						client := pb.NewDStoreServiceClient(conn)
-						_, err := client.Write(ctx, req)
-						s.Log(fmt.Sprintf("I'VE READ FROM %v -> %v", friend, err))
-						if err != nil {
-							s.Log(fmt.Sprintf("Fanout failure: %v", err))
-						} else {
-							count++
-						}
-						conn.Close()
+				conn, err := s.FDial(friend)
+				if err == nil {
+					client := pb.NewDStoreServiceClient(conn)
+					_, err := client.Write(ctx, req)
+					s.Log(fmt.Sprintf("I'VE READ FROM %v -> %v", friend, err))
+					if err != nil {
+						s.Log(fmt.Sprintf("Fanout failure: %v", err))
 					} else {
-						s.Log(fmt.Sprintf("WHAT: %v", err))
+						count++
 					}
+					conn.Close()
+				} else {
+					s.Log(fmt.Sprintf("WHAT: %v", err))
 				}
 			}
 		}
