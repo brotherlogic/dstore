@@ -41,24 +41,26 @@ func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadRespons
 		friends, err = s.FFind(ctx, "dstore")
 		if err == nil {
 			for _, friend := range friends {
-				conn, err := s.FDial(friend)
-				if err == nil {
-					client := pb.NewDStoreServiceClient(conn)
-
-					read, err := client.Read(ctx, req)
-					s.Log(fmt.Sprintf("I'VE READ FROM %v -> %v, %v", friend, read, err))
+				if !strings.HasPrefix(friend, s.Registry.GetIdentifier()) {
+					conn, err := s.FDial(friend)
 					if err == nil {
-						if _, ok := hashMap[read.GetHash()]; !ok {
-							hashMap[read.GetHash()] = read
-						}
+						client := pb.NewDStoreServiceClient(conn)
 
-						countMap[read.GetHash()]++
-						if countMap[read.GetHash()] > bestCount {
-							bestCount = countMap[read.GetHash()]
-							bestHash = read.GetHash()
+						read, err := client.Read(ctx, req)
+						s.Log(fmt.Sprintf("I'VE READ FROM %v -> %v, %v", friend, read, err))
+						if err == nil {
+							if _, ok := hashMap[read.GetHash()]; !ok {
+								hashMap[read.GetHash()] = read
+							}
+
+							countMap[read.GetHash()]++
+							if countMap[read.GetHash()] > bestCount {
+								bestCount = countMap[read.GetHash()]
+								bestHash = read.GetHash()
+							}
 						}
+						conn.Close()
 					}
-					conn.Close()
 				}
 			}
 		}
@@ -102,19 +104,21 @@ func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResp
 		if err == nil {
 			req.NoFanout = true
 			for _, friend := range friends {
-				conn, err := s.FDial(friend)
-				if err == nil {
-					client := pb.NewDStoreServiceClient(conn)
-					_, err := client.Write(ctx, req)
-					s.Log(fmt.Sprintf("I'VE READ FROM %v -> %v", friend, err))
-					if err != nil {
-						s.Log(fmt.Sprintf("Fanout failure: %v", err))
+				if !strings.HasPrefix(friend, s.Registry.GetIdentifier()) {
+					conn, err := s.FDial(friend)
+					if err == nil {
+						client := pb.NewDStoreServiceClient(conn)
+						_, err := client.Write(ctx, req)
+						s.Log(fmt.Sprintf("I'VE READ FROM %v -> %v", friend, err))
+						if err != nil {
+							s.Log(fmt.Sprintf("Fanout failure: %v", err))
+						} else {
+							count++
+						}
+						conn.Close()
 					} else {
-						count++
+						s.Log(fmt.Sprintf("WHAT: %v", err))
 					}
-					conn.Close()
-				} else {
-					s.Log(fmt.Sprintf("WHAT: %v", err))
 				}
 			}
 		}
