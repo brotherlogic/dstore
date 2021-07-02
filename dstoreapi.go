@@ -114,6 +114,8 @@ func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResp
 							count++
 						}
 						conn.Close()
+					} else {
+						s.Log(fmt.Sprintf("WHAT: %v", err))
 					}
 				}
 			}
