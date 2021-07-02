@@ -103,7 +103,7 @@ func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResp
 			req.NoFanout = true
 			for _, friend := range friends {
 				if !strings.Contains(friend, s.Registry.Identifier) {
-					conn, err := s.FDialSpecificServer(ctx, "dtore", friend)
+					conn, err := s.FDialSpecificServer(ctx, "dstore", friend)
 					if err == nil {
 						client := pb.NewDStoreServiceClient(conn)
 						_, err := client.Write(ctx, req)
