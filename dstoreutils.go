@@ -47,13 +47,20 @@ func (s *Server) readFile(dir, key, hash string) (*pb.ReadResponse, error) {
 
 func (s *Server) writeToDir(dir, file string, toWrite *pb.ReadResponse, lnfile string) error {
 
+	filepath := fmt.Sprintf("%v%v/%v", s.basepath, dir, file)
+
+	// Fast path if the file exists
+	if _, err := os.Stat(filepath); err != nil {
+		return nil
+	}
+
 	data, err := proto.Marshal(toWrite)
 	if err != nil {
 		return err
 	}
 
 	os.MkdirAll(s.basepath+dir, 0777)
-	err = ioutil.WriteFile(fmt.Sprintf("%v%v/%v", s.basepath, dir, file), data, 0644)
+	err = ioutil.WriteFile(filepath, data, 0644)
 	if len(lnfile) > 0 && err == nil {
 		//Silent delete of existing symlink
 		os.Remove(fmt.Sprintf("%v%v/%v", s.basepath, dir, lnfile))
