@@ -59,9 +59,16 @@ func (s *Server) writeToDir(dir, file string, toWrite *pb.ReadResponse, lnfile s
 
 		os.MkdirAll(s.basepath+dir, 0777)
 		err = ioutil.WriteFile(filepath, data, 0644)
+		if err != nil {
+			return err
+		}
+	} else if err != nil {
+		return err
 	}
 
-	if len(lnfile) > 0 && err == nil {
+	// We need to reset the err here
+	err = nil
+	if len(lnfile) > 0 {
 		//Silent delete of existing symlink
 		os.Remove(fmt.Sprintf("%v%v/%v", s.basepath, dir, lnfile))
 		err = os.Symlink(fmt.Sprintf("%v", file), fmt.Sprintf("%v%v/%v", s.basepath, dir, lnfile))
