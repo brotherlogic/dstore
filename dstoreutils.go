@@ -30,6 +30,7 @@ func (s *Server) readFile(dir, key, hash string) (*pb.ReadResponse, error) {
 
 	if err != nil {
 		if os.IsNotExist(err) {
+			s.Log(fmt.Sprintf("Cannot fine %v", s.basepath+key+"/"+hash))
 			return nil, status.Errorf(codes.NotFound, err.Error())
 		}
 
