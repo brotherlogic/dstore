@@ -20,8 +20,7 @@ func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadRespons
 		req.Hash = "latest"
 	}
 
-	dir, file := extractFilename(req.GetKey())
-	resp, err := s.readFile(dir, file, req.GetHash())
+	resp, err := s.readFile(req.GetKey(), req.GetHash())
 
 	hashMap := make(map[string]*pb.ReadResponse)
 	countMap := make(map[string]int)

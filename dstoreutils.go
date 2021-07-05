@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"strings"
 
 	"github.com/golang/protobuf/proto"
 	"google.golang.org/grpc/codes"
@@ -13,19 +12,11 @@ import (
 	pb "github.com/brotherlogic/dstore/proto"
 )
 
-func extractFilename(key string) (string, string) {
-	val := strings.LastIndex(key, "/")
-	if val < 0 {
-		return "", key
-	}
-	return key[0 : val+1], key[val+1:]
-}
-
 func (s *Server) deleteFile(dir, file string) {
 	s.Log(fmt.Sprintf("Removing %v%v -> %v", dir, file, os.Remove(s.basepath+dir+file)))
 }
 
-func (s *Server) readFile(dir, key, hash string) (*pb.ReadResponse, error) {
+func (s *Server) readFile(key, hash string) (*pb.ReadResponse, error) {
 	data, err := ioutil.ReadFile(s.basepath + key + "/" + hash)
 
 	if err != nil {
