@@ -9,12 +9,14 @@ import (
 	"github.com/brotherlogic/goserver/utils"
 
 	pb "github.com/brotherlogic/dstore/proto"
+	rcpb "github.com/brotherlogic/recordcleaner/proto"
 	google_protobuf "github.com/golang/protobuf/ptypes/any"
 
 	//Needed to pull in gzip encoding init
 	"google.golang.org/grpc"
 	_ "google.golang.org/grpc/encoding/gzip"
 	"google.golang.org/grpc/resolver"
+	"google.golang.org/protobuf/proto"
 )
 
 func init() {
@@ -46,6 +48,13 @@ func main() {
 	case "read":
 		res, err := client.Read(ctx, &pb.ReadRequest{Key: os.Args[2]})
 		fmt.Printf("%v -> %v\n", res, err)
+
+		config := &rcpb.Config{}
+		err = proto.Unmarshal(res.GetValue().GetValue(), config)
+		if err != nil {
+			log.Fatalf("ERR: %v", err)
+		}
+		log.Printf("CONFIG: %v", config)
 	}
 
 }
