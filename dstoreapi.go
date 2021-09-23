@@ -46,7 +46,7 @@ func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadRespons
 						client := pb.NewDStoreServiceClient(conn)
 
 						read, err := client.Read(ctx, req)
-						s.Log(fmt.Sprintf("I'VE READ FROM %v -> %v, %v", friend, read, err))
+						s.Log(fmt.Sprintf("I'VE READ %v FROM %v -> %v", req.GetKey(), friend, err))
 						if err == nil {
 							if _, ok := hashMap[read.GetHash()]; !ok {
 								hashMap[read.GetHash()] = read
