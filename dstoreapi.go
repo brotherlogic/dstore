@@ -72,7 +72,7 @@ func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadRespons
 
 	//Let's get a consensus on the latest
 	retResp := hashMap[bestHash]
-	s.Log(fmt.Sprintf("MAP %v -> %v", req.GetKey(), hashMap))
+	s.Log(fmt.Sprintf("MAPP %v -> %v", req.GetKey(), hashMap))
 	s.Log(fmt.Sprintf("READ %v with %v [%v]", bestCount, friends, bestHash))
 	retResp.Consensus = float32(bestCount) / float32(len(friends))
 
