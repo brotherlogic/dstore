@@ -11,6 +11,19 @@ import (
 	"google.golang.org/grpc/status"
 
 	pb "github.com/brotherlogic/dstore/proto"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promauto"
+)
+
+var (
+	write_consensus = promauto.NewGaugeVec(prometheus.GaugeOpts{
+		Name: "dstore_write_consensus",
+		Help: "The oldest physical record",
+	}, []string{"key"})
+	read_consensus = promauto.NewGaugeVec(prometheus.GaugeOpts{
+		Name: "dstore_read_consensus",
+		Help: "The oldest physical record",
+	}, []string{"key"})
 )
 
 //Read reads out some data
@@ -76,6 +89,8 @@ func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadRespons
 	s.Log(fmt.Sprintf("READ %v with %v [%v]", bestCount, friends, bestHash))
 	retResp.Consensus = float32(bestCount) / float32(len(friends))
 
+	read_consensus.With(prometheus.Labels{"key": req.GetKey()}).Set(float64(retResp.GetConsensus()))
+
 	return retResp, nil
 }
 
@@ -123,6 +138,9 @@ func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResp
 			}
 		}
 		s.Log(fmt.Sprintf("Written to %v with %v", count, friends))
+
+		write_consensus.With(prometheus.Labels{"key": req.GetKey()}).Set(float64(float32(count) / float32(len(friends))))
+
 		return &pb.WriteResponse{Consensus: float32(count) / float32(len(friends))}, nil
 	}
 
