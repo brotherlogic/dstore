@@ -80,7 +80,7 @@ func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadRespons
 
 	// If we've read nothing return not found
 	if bestHash == "" {
-		return nil, status.Errorf(codes.NotFound, "Cannot locate %v", req.GetKey())
+		return nil, status.Errorf(codes.InvalidArgument, "Cannot locate %v", req.GetKey())
 	}
 
 	//Let's get a consensus on the latest
