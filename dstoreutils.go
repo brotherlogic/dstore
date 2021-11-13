@@ -62,7 +62,10 @@ func (s *Server) writeToDir(dir, file string, toWrite *pb.ReadResponse, lnfile s
 	err = nil
 	if len(lnfile) > 0 {
 		//Silent delete of existing symlink
-		os.Remove(fmt.Sprintf("%v%v/%v", s.basepath, dir, lnfile))
+		err2 := os.Remove(fmt.Sprintf("%v%v/%v", s.basepath, dir, lnfile))
+		if err2 != nil {
+			s.Log(fmt.Sprintf("Unable to remove the latest: %v", err2))
+		}
 		err = os.Symlink(fmt.Sprintf("%v", file), fmt.Sprintf("%v%v/%v", s.basepath, dir, lnfile))
 	}
 
