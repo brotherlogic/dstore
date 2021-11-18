@@ -8,6 +8,7 @@ import (
 
 	"github.com/brotherlogic/goserver/utils"
 
+	dspb "github.com/brotherlogic/datastore/proto"
 	pb "github.com/brotherlogic/dstore/proto"
 	rcpb "github.com/brotherlogic/recordcleaner/proto"
 	google_protobuf "github.com/golang/protobuf/ptypes/any"
@@ -55,6 +56,21 @@ func main() {
 			log.Fatalf("ERR: %v", err)
 		}
 		log.Printf("CONFIG: %v", config)
+	case "transfer":
+		conn, err := utils.LFDialServer(ctx, "datastore")
+		if err != nil {
+			log.Fatalf("Error on dial %v", err)
+		}
+		defer conn.Close()
+		dataclient := dspb.NewDatastoreServiceClient(conn)
+
+		read, err := dataclient.Read(ctx, &dspb.ReadRequest{Key: os.Args[2]})
+		if err != nil {
+			log.Fatalf("Error on read: %v", err)
+		}
+
+		res, err := client.Write(ctx, &pb.WriteRequest{Key: os.Args[3], Value: read.GetValue()})
+		log.Printf("Written: %v and %v", res, err)
 	}
 
 }

@@ -104,7 +104,7 @@ func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResp
 	h.Write(req.GetValue().Value)
 	hash := fmt.Sprintf("%x", h.Sum(nil))
 
-	err := s.writeToDir(req.GetKey(), hash, &pb.ReadResponse{
+	err := s.writeToDir(ctx, req.GetKey(), hash, &pb.ReadResponse{
 		Hash:      hash,
 		Value:     req.GetValue(),
 		Timestamp: time.Now().Unix(),

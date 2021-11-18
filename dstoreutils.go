@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/golang/protobuf/proto"
+	"golang.org/x/net/context"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
@@ -37,7 +38,7 @@ func (s *Server) readFile(key, hash string) (*pb.ReadResponse, error) {
 	return result, nil
 }
 
-func (s *Server) writeToDir(dir, file string, toWrite *pb.ReadResponse, lnfile string) error {
+func (s *Server) writeToDir(ctx context.Context, dir, file string, toWrite *pb.ReadResponse, lnfile string) error {
 
 	filepath := fmt.Sprintf("%v%v/%v", s.basepath, dir, file)
 
@@ -63,10 +64,10 @@ func (s *Server) writeToDir(dir, file string, toWrite *pb.ReadResponse, lnfile s
 	if len(lnfile) > 0 {
 		//Silent delete of existing symlink
 		err2 := os.Remove(fmt.Sprintf("%v%v/%v", s.basepath, dir, lnfile))
-		if err2 != nil {
-			s.Log(fmt.Sprintf("Unable to remove the latest: %v", err2))
-		}
+		s.CtxLog(ctx, fmt.Sprintf("Removed latest: %v -> %v", fmt.Sprintf("%v%v/%v", s.basepath, dir, lnfile), err2))
 		err = os.Symlink(fmt.Sprintf("%v", file), fmt.Sprintf("%v%v/%v", s.basepath, dir, lnfile))
+		s.CtxLog(ctx, fmt.Sprintf("Written symlink: %v -> %v", fmt.Sprintf("%v%v/%v", s.basepath, dir, lnfile), err))
+
 	}
 
 	return err
