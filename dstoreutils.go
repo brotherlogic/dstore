@@ -88,7 +88,11 @@ func (s *Server) cleanDir(ctx context.Context, key string) error {
 			return files[i].ModTime().Before(files[j].ModTime())
 		})
 
-		s.Log(fmt.Sprintf("EXAMPLE: %v vs %v", files[0].ModTime(), files[len(files)-1].ModTime()))
+		s.Log(fmt.Sprintf("EXAMPLE: %v vs %v (%v)", files[0].ModTime(), files[len(files)-1].ModTime(), files[0].Name()))
+
+		for i := 0; i < len(files)-50; i++ {
+			os.Remove(files[i].Name())
+		}
 	} else {
 		s.Log(fmt.Sprintf("CONSIDERING ignore %v, %v", key, len(files)))
 	}
