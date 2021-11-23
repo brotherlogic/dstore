@@ -59,8 +59,8 @@ func (s *Server) GetState() []*pbg.State {
 
 func (s *Server) runCleans() {
 	for !s.LameDuck {
-		s.Log(fmt.Sprintf("Starting clean: %v", len(s.cleans)))
 		time.Sleep(time.Minute)
+		s.Log(fmt.Sprintf("Starting clean: %v", len(s.cleans)))
 		for _, key := range s.cleans {
 			ctx, cancel := utils.ManualContext("dstore-clean-"+key, time.Minute)
 			err := s.cleanDir(ctx, key)
