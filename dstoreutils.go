@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"sort"
 
 	"github.com/golang/protobuf/proto"
 	"golang.org/x/net/context"
@@ -82,6 +83,11 @@ func (s *Server) cleanDir(ctx context.Context, key string) error {
 
 	if len(files) > 100 {
 		s.Log(fmt.Sprintf("CONSIDERING cleaning %v", key))
+		sort.SliceStable(files, func(i, j int) bool {
+			return files[i].ModTime().Before(files[j].ModTime())
+		})
+
+		s.Log(fmt.Sprintf("EXAMPLE: %v vs %v", files[0].ModTime(), files[len(files)-1].ModTime()))
 	}
 
 	return nil
