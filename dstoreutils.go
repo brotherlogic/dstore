@@ -72,3 +72,17 @@ func (s *Server) writeToDir(ctx context.Context, dir, file string, toWrite *pb.R
 
 	return err
 }
+
+func (s *Server) cleanDir(ctx context.Context, key string) error {
+	s.DLog(ctx, fmt.Sprintf("Cleaning %v", s.basepath+key))
+	files, err := ioutil.ReadDir(s.basepath + key)
+	if err != nil {
+		return err
+	}
+
+	if len(files) > 100 {
+		s.Log(fmt.Sprintf("CONSIDERING cleaning %v", key))
+	}
+
+	return nil
+}

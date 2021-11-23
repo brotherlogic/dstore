@@ -100,6 +100,16 @@ func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResp
 		return nil, fmt.Errorf("keys should not start with a backslash: %v", req.GetKey())
 	}
 
+	found := false
+	for _, k := range s.cleans {
+		if k == req.GetKey() {
+			found = true
+		}
+	}
+	if !found {
+		s.cleans = append(s.cleans, req.GetKey())
+	}
+
 	h := sha256.New()
 	h.Write(req.GetValue().Value)
 	hash := fmt.Sprintf("%x", h.Sum(nil))
