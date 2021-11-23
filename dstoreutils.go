@@ -75,8 +75,9 @@ func (s *Server) writeToDir(ctx context.Context, dir, file string, toWrite *pb.R
 }
 
 func (s *Server) cleanDir(ctx context.Context, key string) error {
-	s.DLog(ctx, fmt.Sprintf("Cleaning %v", s.basepath+key))
 	files, err := ioutil.ReadDir(s.basepath + key)
+	s.DLog(ctx, fmt.Sprintf("Cleaning %v -> %v", s.basepath+key, err))
+
 	if err != nil {
 		return err
 	}
@@ -88,6 +89,8 @@ func (s *Server) cleanDir(ctx context.Context, key string) error {
 		})
 
 		s.Log(fmt.Sprintf("EXAMPLE: %v vs %v", files[0].ModTime(), files[len(files)-1].ModTime()))
+	} else {
+		s.Log(fmt.Sprintf("CONSIDERING ignore %v, %v", key, len(files)))
 	}
 
 	return nil
