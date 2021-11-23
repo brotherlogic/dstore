@@ -82,7 +82,7 @@ func main() {
 		return
 	}
 
-	server.MemCap = 100000000 * 100
+	server.MemCap = 100000000 * 10
 	go server.runCleans()
 
 	fmt.Printf("%v", server.Serve())
