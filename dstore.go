@@ -81,5 +81,7 @@ func main() {
 		return
 	}
 
+	go server.runCleans()
+
 	fmt.Printf("%v", server.Serve())
 }
