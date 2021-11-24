@@ -7,6 +7,8 @@ import (
 	"sort"
 
 	"github.com/golang/protobuf/proto"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promauto"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -74,6 +76,13 @@ func (s *Server) writeToDir(ctx context.Context, dir, file string, toWrite *pb.R
 	return err
 }
 
+var (
+	key_size = promauto.NewGaugeVec(prometheus.GaugeOpts{
+		Name: "dstore_key_size",
+		Help: "The oldest physical record",
+	}, []string{"key"})
+)
+
 func (s *Server) cleanDir(ctx context.Context, key string) error {
 	files, err := ioutil.ReadDir(s.basepath + key)
 	s.DLog(ctx, fmt.Sprintf("Cleaning %v -> %v", s.basepath+key, err))
@@ -82,6 +91,7 @@ func (s *Server) cleanDir(ctx context.Context, key string) error {
 		return err
 	}
 
+	key_size.With(prometheus.Labels{"key": key}).Set(float64(len(files)))
 	if len(files) > 100 {
 		s.Log(fmt.Sprintf("CONSIDERING cleaning %v", key))
 		sort.SliceStable(files, func(i, j int) bool {
@@ -90,7 +100,7 @@ func (s *Server) cleanDir(ctx context.Context, key string) error {
 
 		s.Log(fmt.Sprintf("EXAMPLE: %v vs %v (%v)", files[0].ModTime(), files[len(files)-1].ModTime(), files[0].Name()))
 
-		for i := 0; i < len(files)-50; i++ {
+		for i := 0; i < len(files)-1000; i++ {
 			os.Remove(files[i].Name())
 		}
 	} else {
