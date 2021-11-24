@@ -101,7 +101,10 @@ func (s *Server) cleanDir(ctx context.Context, key string) error {
 		s.Log(fmt.Sprintf("EXAMPLE: %v vs %v (%v)", files[0].ModTime(), files[len(files)-1].ModTime(), files[0].Name()))
 
 		for i := 0; i < len(files)-1000; i++ {
-			os.Remove(files[i].Name())
+			err = os.Remove(files[i].Name())
+			if err != nil {
+				s.Log(fmt.Sprintf("FAILURE to remove: %v -> %v", files[i].Name(), err))
+			}
 		}
 	} else {
 		s.Log(fmt.Sprintf("CONSIDERING ignore %v, %v", key, len(files)))
