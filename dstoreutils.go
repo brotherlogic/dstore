@@ -92,7 +92,7 @@ func (s *Server) cleanDir(ctx context.Context, key string) error {
 	}
 
 	key_size.With(prometheus.Labels{"key": key}).Set(float64(len(files)))
-	if len(files) > 100 {
+	if len(files) > 2000 {
 		s.Log(fmt.Sprintf("CONSIDERING cleaning %v", key))
 		sort.SliceStable(files, func(i, j int) bool {
 			return files[i].ModTime().Before(files[j].ModTime())
