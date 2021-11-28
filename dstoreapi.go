@@ -100,6 +100,9 @@ func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResp
 		return nil, fmt.Errorf("keys should not start with a backslash: %v", req.GetKey())
 	}
 
+	s.writeLock.Lock()
+	defer s.writeLock.Unlock()
+
 	found := false
 	for _, k := range s.cleans {
 		if k == req.GetKey() {

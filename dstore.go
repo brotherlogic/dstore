@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sync"
 	"time"
 
 	"github.com/brotherlogic/goserver"
@@ -19,6 +20,7 @@ type Server struct {
 	basepath  string
 	translate map[string]string
 	cleans    []string
+	writeLock *sync.Mutex
 }
 
 // Init builds the server
@@ -28,6 +30,7 @@ func Init() *Server {
 		basepath:  "/media/datastore/",
 		translate: make(map[string]string),
 		cleans:    make([]string, 0),
+		writeLock: &sync.Mutex{},
 	}
 	return s
 }
