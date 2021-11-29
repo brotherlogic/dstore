@@ -101,7 +101,6 @@ func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResp
 	}
 
 	s.writeLock.Lock()
-	defer s.writeLock.Unlock()
 
 	found := false
 	for _, k := range s.cleans {
@@ -123,9 +122,11 @@ func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResp
 		Timestamp: time.Now().Unix(),
 	}, "latest")
 	if err != nil {
+		s.writeLock.Unlock()
 		return nil, err
 	}
 
+	s.writeLock.Unlock()
 	count := 1
 	if !req.NoFanout {
 		friends, err := s.FFind(ctx, "dstore")
