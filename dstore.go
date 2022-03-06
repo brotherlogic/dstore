@@ -68,7 +68,7 @@ func (s *Server) runCleans() {
 			ctx, cancel := utils.ManualContext("dstore-clean-"+key, time.Minute)
 			err := s.cleanDir(ctx, key)
 			if err != nil {
-				s.RaiseIssue("Bad clean", fmt.Sprintf("Cleaning failure: %v", err))
+				s.RaiseIssue("Bad clean", fmt.Sprintf("On %v: Cleaning failure: %v", s.Registry.GetIdentifier(), err))
 			}
 			cancel()
 		}
