@@ -48,6 +48,7 @@ func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadRespons
 		bestHash = resp.GetHash()
 	}
 
+	fcount := float32(0)
 	if !req.NoFanout {
 		req.NoFanout = true
 		friends, err = s.FFind(ctx, "dstore")
@@ -60,6 +61,12 @@ func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadRespons
 
 						read, err := client.Read(ctx, req)
 						s.Log(fmt.Sprintf("I'VE READ %v FROM %v -> %v", req.GetKey(), friend, err))
+
+						// We only consider reads where we got something back
+						if err == nil || status.Convert(err).Code() == codes.InvalidArgument {
+							fcount++
+						}
+
 						if err == nil {
 							if _, ok := hashMap[read.GetHash()]; !ok {
 								hashMap[read.GetHash()] = read
@@ -86,8 +93,8 @@ func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadRespons
 	//Let's get a consensus on the latest
 	retResp := hashMap[bestHash]
 	s.Log(fmt.Sprintf("MAPP %v -> %v", req.GetKey(), countMap))
-	s.Log(fmt.Sprintf("READ %v with %v [%v]", bestCount, friends, bestHash))
-	retResp.Consensus = float32(bestCount) / float32(len(friends))
+	s.Log(fmt.Sprintf("READ %v with %v -> %v [%v]", bestCount, friends, fcount, bestHash))
+	retResp.Consensus = float32(bestCount) / fcount
 
 	read_consensus.With(prometheus.Labels{"key": req.GetKey()}).Set(float64(retResp.GetConsensus()))
 
