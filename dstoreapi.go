@@ -123,10 +123,11 @@ func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResp
 	h.Write(req.GetValue().Value)
 	hash := fmt.Sprintf("%x", h.Sum(nil))
 
+	ts := time.Now().Unix()
 	err := s.writeToDir(ctx, req.GetKey(), hash, &pb.ReadResponse{
 		Hash:      hash,
 		Value:     req.GetValue(),
-		Timestamp: time.Now().Unix(),
+		Timestamp: ts,
 	}, "latest")
 	if err != nil {
 		s.writeLock.Unlock()
@@ -162,7 +163,11 @@ func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResp
 
 		write_consensus.With(prometheus.Labels{"key": req.GetKey()}).Set(float64(float32(count) / float32(len(friends))))
 
-		return &pb.WriteResponse{Consensus: float32(count) / float32(len(friends))}, nil
+		return &pb.WriteResponse{
+			Consensus: float32(count) / float32(len(friends)),
+			Hash:      hash,
+			Timestamp: ts,
+		}, nil
 	}
 
 	return &pb.WriteResponse{}, nil
