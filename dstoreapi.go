@@ -60,7 +60,6 @@ func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadRespons
 						client := pb.NewDStoreServiceClient(conn)
 
 						read, err := client.Read(ctx, req)
-						s.Log(fmt.Sprintf("I'VE READ %v FROM %v -> %v", req.GetKey(), friend, err))
 
 						// We only consider reads where we got something back
 						if err == nil || status.Convert(err).Code() == codes.InvalidArgument {
@@ -92,8 +91,6 @@ func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadRespons
 
 	//Let's get a consensus on the latest
 	retResp := hashMap[bestHash]
-	s.Log(fmt.Sprintf("MAPP %v -> %v", req.GetKey(), countMap))
-	s.Log(fmt.Sprintf("READ %v with %v -> %v [%v]", bestCount, friends, fcount, bestHash))
 	retResp.Consensus = float32(bestCount) / fcount
 
 	read_consensus.With(prometheus.Labels{"key": req.GetKey()}).Set(float64(retResp.GetConsensus()))
@@ -146,20 +143,14 @@ func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResp
 					if err == nil {
 						client := pb.NewDStoreServiceClient(conn)
 						_, err := client.Write(ctx, req)
-						s.Log(fmt.Sprintf("I'VE READ FROM %v -> %v", friend, err))
-						if err != nil {
-							s.Log(fmt.Sprintf("Fanout failure: %v", err))
-						} else {
+						if err == nil {
 							count++
 						}
 						conn.Close()
-					} else {
-						s.Log(fmt.Sprintf("WHAT: %v", err))
 					}
 				}
 			}
 		}
-		s.Log(fmt.Sprintf("Written to %v with %v", count, friends))
 
 		write_consensus.With(prometheus.Labels{"key": req.GetKey()}).Set(float64(float32(count) / float32(len(friends))))
 

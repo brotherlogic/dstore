@@ -17,7 +17,7 @@ import (
 )
 
 func (s *Server) deleteFile(dir, file string) {
-	s.Log(fmt.Sprintf("Removing %v%v -> %v", dir, file, os.Remove(s.basepath+dir+file)))
+	//s.Log(fmt.Sprintf("Removing %v%v -> %v", dir, file, os.Remove(s.basepath+dir+file)))
 }
 
 func (s *Server) readFile(key, hash string) (*pb.ReadResponse, error) {
@@ -25,7 +25,6 @@ func (s *Server) readFile(key, hash string) (*pb.ReadResponse, error) {
 
 	if err != nil {
 		if os.IsNotExist(err) {
-			s.Log(fmt.Sprintf("Cannot fine %v", s.basepath+key+"/"+hash))
 			return nil, status.Errorf(codes.InvalidArgument, err.Error())
 		}
 
@@ -66,11 +65,8 @@ func (s *Server) writeToDir(ctx context.Context, dir, file string, toWrite *pb.R
 	err = nil
 	if len(lnfile) > 0 {
 		//Silent delete of existing symlink
-		err2 := os.Remove(fmt.Sprintf("%v%v/%v", s.basepath, dir, lnfile))
-		s.CtxLog(ctx, fmt.Sprintf("Removed latest: %v -> %v", fmt.Sprintf("%v%v/%v", s.basepath, dir, lnfile), err2))
+		os.Remove(fmt.Sprintf("%v%v/%v", s.basepath, dir, lnfile))
 		err = os.Symlink(fmt.Sprintf("%v", file), fmt.Sprintf("%v%v/%v", s.basepath, dir, lnfile))
-		s.CtxLog(ctx, fmt.Sprintf("Written symlink: %v -> %v", fmt.Sprintf("%v%v/%v", s.basepath, dir, lnfile), err))
-
 	}
 
 	return err
@@ -85,7 +81,6 @@ var (
 
 func (s *Server) cleanDir(ctx context.Context, key string) error {
 	files, err := ioutil.ReadDir(s.basepath + key)
-	s.DLog(ctx, fmt.Sprintf("Cleaning %v -> %v", s.basepath+key, err))
 
 	if err != nil {
 		return err
@@ -93,21 +88,13 @@ func (s *Server) cleanDir(ctx context.Context, key string) error {
 
 	key_size.With(prometheus.Labels{"key": key}).Set(float64(len(files)))
 	if len(files) > 2000 {
-		s.Log(fmt.Sprintf("CONSIDERING cleaning %v", key))
 		sort.SliceStable(files, func(i, j int) bool {
 			return files[i].ModTime().Before(files[j].ModTime())
 		})
 
-		s.Log(fmt.Sprintf("EXAMPLE: %v vs %v (%v)", files[0].ModTime(), files[len(files)-1].ModTime(), files[0].Name()))
-
 		for i := 0; i < len(files)-1000; i++ {
 			err = os.Remove(s.basepath + key + "/" + files[i].Name())
-			if err != nil {
-				s.Log(fmt.Sprintf("FAILURE to remove: %v -> %v", s.basepath+key+"/"+files[i].Name(), err))
-			}
 		}
-	} else {
-		s.Log(fmt.Sprintf("CONSIDERING ignore %v, %v", key, len(files)))
 	}
 
 	return nil
