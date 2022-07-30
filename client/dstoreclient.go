@@ -34,6 +34,9 @@ func (c *DStoreClient) Read(ctx context.Context, in *pb.ReadRequest, opts ...grp
 
 func (c *DStoreClient) Write(ctx context.Context, in *pb.WriteRequest, opts ...grpc.CallOption) (*pb.WriteResponse, error) {
 	if c.Test {
+		if c.ReadResponseMap == nil {
+			c.ReadResponseMap = make(map[string][]byte)
+		}
 		c.ReadResponseMap[in.GetKey()] = in.GetValue().GetValue()
 		return &pb.WriteResponse{Consensus: 1.0}, nil
 	}
