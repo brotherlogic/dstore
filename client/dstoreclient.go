@@ -10,7 +10,7 @@ import (
 )
 
 type DStoreClient struct {
-	Gs              pbgs.GoServer
+	Gs              *pbgs.GoServer
 	ReadResponseMap map[string][]byte
 	Test            bool
 }
