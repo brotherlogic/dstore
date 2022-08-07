@@ -76,10 +76,10 @@ func (s *Server) runCleans() {
 
 func main() {
 	server := Init()
-	server.PrepServer()
+	server.PrepServer("dstore")
 	server.Register = server
 
-	err := server.RegisterServerV2("dstore", false, true)
+	err := server.RegisterServerV2(false)
 	if err != nil {
 		return
 	}
