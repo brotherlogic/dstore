@@ -2,7 +2,7 @@ package main
 
 import "testing"
 
-func RunBasicTest(t *testing.T) {
+func TestBasic(t *testing.T) {
 	if true {
 		t.Errorf("Bad test")
 	}
