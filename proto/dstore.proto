@@ -33,6 +33,7 @@ message WriteResponse {
 
 message GetLatestRequest {
   string key = 1;
+  string hash = 2;
 }
 
 message GetLatestResponse {

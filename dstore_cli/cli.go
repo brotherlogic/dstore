@@ -43,6 +43,10 @@ func main() {
 
 	switch os.Args[1] {
 	case "latest":
+		key := ""
+		if len(os.Args) > 3 {
+			key = os.Args[3]
+		}
 		for _, server := range all {
 			conn, err := utils.LFDial(fmt.Sprintf("%v:%v", server.Identifier, server.Port))
 			if err != nil {
@@ -50,7 +54,7 @@ func main() {
 			}
 			defer conn.Close()
 			client := pb.NewDStoreServiceClient(conn)
-			res, err := client.GetLatest(ctx, &pb.GetLatestRequest{Key: os.Args[2]})
+			res, err := client.GetLatest(ctx, &pb.GetLatestRequest{Key: os.Args[2], Hash: key})
 			if err != nil {
 				log.Fatalf("Unable to read %v -> %v", server, err)
 			}

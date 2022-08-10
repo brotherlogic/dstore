@@ -27,7 +27,11 @@ var (
 )
 
 func (s *Server) GetLatest(ctx context.Context, req *pb.GetLatestRequest) (*pb.GetLatestResponse, error) {
-	resp, err := s.readFile(req.GetKey(), "latest")
+	key := "latest"
+	if req.GetKey() != "" {
+		key = req.GetKey()
+	}
+	resp, err := s.readFile(req.GetKey(), key)
 	if err != nil {
 		return nil, err
 	}
