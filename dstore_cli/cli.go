@@ -42,6 +42,20 @@ func main() {
 	defer cancel()
 
 	switch os.Args[1] {
+	case "latest":
+		for _, server := range all {
+			conn, err := utils.LFDial(fmt.Sprintf("%v:%v", server.Identifier, server.Port))
+			if err != nil {
+				log.Fatalf("Unable to dial %v -> %v", server, err)
+			}
+			defer conn.Close()
+			client := pb.NewDStoreServiceClient(conn)
+			res, err := client.GetLatest(ctx, &pb.GetLatestRequest{Key: os.Args[2]})
+			if err != nil {
+				log.Fatalf("Unable to read %v -> %v", server, err)
+			}
+			fmt.Printf("%v: %v\n", server.Identifier, res.GetHash())
+		}
 	case "write":
 		fmt.Printf("Writing to %v\n", chosen)
 

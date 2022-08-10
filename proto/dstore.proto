@@ -31,7 +31,17 @@ message WriteResponse {
   string hash = 3;
 }
 
+message GetLatestRequest {
+  string key = 1;
+}
+
+message GetLatestResponse {
+  string hash = 1;
+}
+
 service DStoreService {
   rpc Read (ReadRequest) returns (ReadResponse) {};
   rpc Write (WriteRequest) returns (WriteResponse) {};
+
+  rpc GetLatest(GetLatestRequest) returns (GetLatestResponse) {};
 }
