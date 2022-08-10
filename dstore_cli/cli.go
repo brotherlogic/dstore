@@ -32,7 +32,6 @@ func main() {
 
 	//rand.Shuffle(len(all), func(i, j int) { all[i], all[j] = all[j], all[i] })
 	chosen := all[1]
-	fmt.Printf("Writing to %v\n", chosen)
 	conn, err := grpc.Dial(fmt.Sprintf("%v:%v", chosen.Identifier, chosen.Port), grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Unable to dial: %v", err)
@@ -44,6 +43,8 @@ func main() {
 
 	switch os.Args[1] {
 	case "write":
+		fmt.Printf("Writing to %v\n", chosen)
+
 		res, err := client.Write(ctx, &pb.WriteRequest{Key: os.Args[2], Value: &google_protobuf.Any{Value: []byte(os.Args[3])}})
 		fmt.Printf("%v -> %v\n", res, err)
 	case "read":

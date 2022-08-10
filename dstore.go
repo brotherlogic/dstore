@@ -84,6 +84,7 @@ func main() {
 		return
 	}
 
+	// Clear out the old stuff
 	server.MemCap = 100000000 * 10
 	go server.runCleans()
 
