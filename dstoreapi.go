@@ -28,8 +28,8 @@ var (
 
 func (s *Server) GetLatest(ctx context.Context, req *pb.GetLatestRequest) (*pb.GetLatestResponse, error) {
 	key := "latest"
-	if req.GetKey() != "" {
-		key = req.GetKey()
+	if req.GetHash() != "" {
+		key = req.GetHash()
 	}
 	resp, err := s.readFile(req.GetKey(), key)
 	if err != nil {
