@@ -26,6 +26,14 @@ var (
 	}, []string{"key"})
 )
 
+func (s *Server) GetLatest(ctx context.Context, req *pb.GetLatestRequest) (*pb.GetLatestResponse, error) {
+	resp, err := s.readFile(req.GetKey(), "latest")
+	if err != nil {
+		return nil, err
+	}
+	return &pb.GetLatestResponse{Hash: resp.GetHash()}, nil
+}
+
 //Read reads out some data
 func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadResponse, error) {
 	//Get the latest item if we don't have hash
