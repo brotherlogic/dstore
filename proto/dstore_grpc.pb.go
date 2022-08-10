@@ -19,6 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 type DStoreServiceClient interface {
 	Read(ctx context.Context, in *ReadRequest, opts ...grpc.CallOption) (*ReadResponse, error)
 	Write(ctx context.Context, in *WriteRequest, opts ...grpc.CallOption) (*WriteResponse, error)
+	GetLatest(ctx context.Context, in *GetLatestRequest, opts ...grpc.CallOption) (*GetLatestResponse, error)
 }
 
 type dStoreServiceClient struct {
@@ -47,12 +48,22 @@ func (c *dStoreServiceClient) Write(ctx context.Context, in *WriteRequest, opts 
 	return out, nil
 }
 
+func (c *dStoreServiceClient) GetLatest(ctx context.Context, in *GetLatestRequest, opts ...grpc.CallOption) (*GetLatestResponse, error) {
+	out := new(GetLatestResponse)
+	err := c.cc.Invoke(ctx, "/dstore.DStoreService/GetLatest", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DStoreServiceServer is the server API for DStoreService service.
 // All implementations should embed UnimplementedDStoreServiceServer
 // for forward compatibility
 type DStoreServiceServer interface {
 	Read(context.Context, *ReadRequest) (*ReadResponse, error)
 	Write(context.Context, *WriteRequest) (*WriteResponse, error)
+	GetLatest(context.Context, *GetLatestRequest) (*GetLatestResponse, error)
 }
 
 // UnimplementedDStoreServiceServer should be embedded to have forward compatible implementations.
@@ -64,6 +75,9 @@ func (UnimplementedDStoreServiceServer) Read(context.Context, *ReadRequest) (*Re
 }
 func (UnimplementedDStoreServiceServer) Write(context.Context, *WriteRequest) (*WriteResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Write not implemented")
+}
+func (UnimplementedDStoreServiceServer) GetLatest(context.Context, *GetLatestRequest) (*GetLatestResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetLatest not implemented")
 }
 
 // UnsafeDStoreServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -113,6 +127,24 @@ func _DStoreService_Write_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DStoreService_GetLatest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetLatestRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DStoreServiceServer).GetLatest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/dstore.DStoreService/GetLatest",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DStoreServiceServer).GetLatest(ctx, req.(*GetLatestRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _DStoreService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "dstore.DStoreService",
 	HandlerType: (*DStoreServiceServer)(nil),
@@ -124,6 +156,10 @@ var _DStoreService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Write",
 			Handler:    _DStoreService_Write_Handler,
+		},
+		{
+			MethodName: "GetLatest",
+			Handler:    _DStoreService_GetLatest_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
