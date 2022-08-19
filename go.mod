@@ -6,7 +6,7 @@ require (
 	github.com/brotherlogic/datastore v0.0.0-20220812180257-4c8dc33e044f
 	github.com/brotherlogic/githubcard v0.0.0-20220818180326-d5edbc5bbdb1 // indirect
 	github.com/brotherlogic/gobuildslave v0.0.0-20220819152656-07795b3f76be // indirect
-	github.com/brotherlogic/goserver v0.0.0-20220819180108-b44ebdd63499
+	github.com/brotherlogic/goserver v0.0.0-20220819181159-c728a3f047e7
 	github.com/brotherlogic/recordcleaner v0.0.0-20220817194511-6755aa333593
 	github.com/golang/protobuf v1.5.2
 	github.com/prometheus/client_golang v1.13.0
