@@ -35,7 +35,7 @@ func (s *Server) GetLatest(ctx context.Context, req *pb.GetLatestRequest) (*pb.G
 	if err != nil {
 		return nil, err
 	}
-	return &pb.GetLatestResponse{Hash: resp.GetHash()}, nil
+	return &pb.GetLatestResponse{Hash: resp.GetHash(), Timestamp: resp.GetTimestamp()}, nil
 }
 
 //Read reads out some data

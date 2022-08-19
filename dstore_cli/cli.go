@@ -58,7 +58,7 @@ func main() {
 			if err != nil {
 				log.Fatalf("Unable to read %v -> %v", server, err)
 			}
-			fmt.Printf("%v: %v\n", server.Identifier, res.GetHash())
+			fmt.Printf("%v [%v]: %v\n", server.Identifier, res.GetHash(), time.Unix(res.GetTimestamp(), 0))
 		}
 	case "write":
 		fmt.Printf("Writing to %v\n", chosen)
