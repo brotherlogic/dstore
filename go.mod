@@ -6,12 +6,12 @@ require (
 	github.com/brotherlogic/datastore v0.0.0-20220812180257-4c8dc33e044f
 	github.com/brotherlogic/githubcard v0.0.0-20220818180326-d5edbc5bbdb1 // indirect
 	github.com/brotherlogic/gobuildslave v0.0.0-20220819152656-07795b3f76be // indirect
-	github.com/brotherlogic/goserver v0.0.0-20220819174004-b6bbf47c35e5
+	github.com/brotherlogic/goserver v0.0.0-20220819180108-b44ebdd63499
 	github.com/brotherlogic/recordcleaner v0.0.0-20220817194511-6755aa333593
 	github.com/golang/protobuf v1.5.2
 	github.com/prometheus/client_golang v1.13.0
 	golang.org/x/net v0.0.0-20220812174116-3211cb980234
-	google.golang.org/genproto v0.0.0-20220819153447-c7cd466b0e09 // indirect
+	google.golang.org/genproto v0.0.0-20220819174105-e9f053255caa // indirect
 	google.golang.org/grpc v1.48.0
 	google.golang.org/protobuf v1.28.1
 )
