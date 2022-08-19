@@ -88,5 +88,8 @@ func main() {
 	server.MemCap = 100000000 * 10
 	go server.runCleans()
 
+	// Don't write full requests into the logs
+	server.NoBody = true
+
 	fmt.Printf("%v", server.Serve())
 }
