@@ -51,11 +51,11 @@ func (s *Server) GetLatest(ctx context.Context, req *pb.GetLatestRequest) (*pb.G
 //Read reads out some data
 func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadResponse, error) {
 	t1 := time.Now()
-	defer func() {
-		if !req.GetNoFanout() {
+	defer func(run bool) {
+		if run {
 			mainLatency.With(prometheus.Labels{"method": "READ"}).Observe(float64(time.Since(t1).Milliseconds()))
 		}
-	}()
+	}(!req.GetNoFanout())
 	//Get the latest item if we don't have hash
 	if req.GetHash() == "" {
 		req.Hash = "latest"
@@ -131,11 +131,11 @@ func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadRespons
 //Write writes out a key
 func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResponse, error) {
 	t1 := time.Now()
-	defer func() {
-		if !req.GetNoFanout() {
+	defer func(run bool) {
+		if run {
 			mainLatency.With(prometheus.Labels{"method": "WRITE"}).Observe(float64(time.Since(t1).Milliseconds()))
 		}
-	}()
+	}(!req.GetNoFanout())
 	if strings.HasPrefix(req.GetKey(), "/") {
 		return nil, fmt.Errorf("keys should not start with a backslash: %v", req.GetKey())
 	}
