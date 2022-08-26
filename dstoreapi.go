@@ -89,7 +89,7 @@ func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadRespons
 
 						t2 := time.Now()
 						read, err := client.Read(ctx, req)
-						subLatency.With(prometheus.Labels{"method": "WRITE", "client": friend}).Observe(float64(time.Since(t2).Milliseconds()))
+						subLatency.With(prometheus.Labels{"method": "READ", "client": friend}).Observe(float64(time.Since(t2).Milliseconds()))
 
 						// We only consider reads where we got something back
 						if err == nil || status.Convert(err).Code() == codes.InvalidArgument {
