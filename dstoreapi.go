@@ -24,6 +24,16 @@ var (
 		Name: "dstore_read_consensus",
 		Help: "The oldest physical record",
 	}, []string{"key"})
+	mainLatency = promauto.NewHistogramVec(prometheus.HistogramOpts{
+		Name:    "dstore_main_latency",
+		Help:    "The latency of server requests",
+		Buckets: []float64{5, 10, 25, 50, 100, 250, 500, 1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000, 256000, 1024000},
+	}, []string{"method"})
+	subLatency = promauto.NewHistogramVec(prometheus.HistogramOpts{
+		Name:    "dstore_sub_latency",
+		Help:    "The latency of server requests",
+		Buckets: []float64{5, 10, 25, 50, 100, 250, 500, 1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000, 256000, 1024000},
+	}, []string{"method", "client"})
 )
 
 func (s *Server) GetLatest(ctx context.Context, req *pb.GetLatestRequest) (*pb.GetLatestResponse, error) {
@@ -40,6 +50,12 @@ func (s *Server) GetLatest(ctx context.Context, req *pb.GetLatestRequest) (*pb.G
 
 //Read reads out some data
 func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadResponse, error) {
+	t1 := time.Now()
+	defer func() {
+		if !req.GetNoFanout() {
+			mainLatency.With(prometheus.Labels{"method": "READ"}).Observe(float64(time.Since(t1).Milliseconds()))
+		}
+	}()
 	//Get the latest item if we don't have hash
 	if req.GetHash() == "" {
 		req.Hash = "latest"
@@ -71,7 +87,9 @@ func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadRespons
 					if err == nil {
 						client := pb.NewDStoreServiceClient(conn)
 
+						t2 := time.Now()
 						read, err := client.Read(ctx, req)
+						subLatency.With(prometheus.Labels{"method": "WRITE", "client": friend}).Observe(float64(time.Since(t2).Milliseconds()))
 
 						// We only consider reads where we got something back
 						if err == nil || status.Convert(err).Code() == codes.InvalidArgument {
@@ -112,6 +130,12 @@ func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadRespons
 
 //Write writes out a key
 func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResponse, error) {
+	t1 := time.Now()
+	defer func() {
+		if !req.GetNoFanout() {
+			mainLatency.With(prometheus.Labels{"method": "WRITE"}).Observe(float64(time.Since(t1).Milliseconds()))
+		}
+	}()
 	if strings.HasPrefix(req.GetKey(), "/") {
 		return nil, fmt.Errorf("keys should not start with a backslash: %v", req.GetKey())
 	}
@@ -154,7 +178,9 @@ func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResp
 					conn, err := s.FDial(friend)
 					if err == nil {
 						client := pb.NewDStoreServiceClient(conn)
+						t2 := time.Now()
 						_, err := client.Write(ctx, req)
+						subLatency.With(prometheus.Labels{"method": "WRITE", "client": friend}).Observe(float64(time.Since(t2).Milliseconds()))
 						if err == nil {
 							count++
 						}
