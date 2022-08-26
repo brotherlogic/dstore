@@ -130,6 +130,9 @@ func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadRespons
 
 //Write writes out a key
 func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResponse, error) {
+	if !req.GetNoFanout() {
+		s.CtxLog(ctx, fmt.Sprintf("Writing %v as main", req.GetKey()))
+	}
 	t1 := time.Now()
 	defer func(run bool) {
 		if run {
@@ -179,6 +182,7 @@ func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResp
 					if err == nil {
 						client := pb.NewDStoreServiceClient(conn)
 						t2 := time.Now()
+						s.CtxLog(ctx, fmt.Sprintf("Writing %v as sub to %v", req.GetKey(), friend))
 						_, err := client.Write(ctx, req)
 						subLatency.With(prometheus.Labels{"method": "WRITE", "client": friend}).Observe(float64(time.Since(t2).Milliseconds()))
 						if err == nil {
