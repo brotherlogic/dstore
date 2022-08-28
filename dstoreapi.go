@@ -196,6 +196,7 @@ func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResp
 
 		write_consensus.With(prometheus.Labels{"key": req.GetKey()}).Set(float64(float32(count) / float32(len(friends))))
 
+		s.CtxLog(ctx, fmt.Sprintf("Written %v in %v", req.GetKey(), time.Since(t1)))
 		return &pb.WriteResponse{
 			Consensus: float32(count) / float32(len(friends)),
 			Hash:      hash,
