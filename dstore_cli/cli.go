@@ -31,7 +31,7 @@ func main() {
 	}
 
 	//rand.Shuffle(len(all), func(i, j int) { all[i], all[j] = all[j], all[i] })
-	chosen := all[1]
+	chosen := all[0]
 	conn, err := grpc.Dial(fmt.Sprintf("%v:%v", chosen.Identifier, chosen.Port), grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Unable to dial: %v", err)
@@ -50,13 +50,13 @@ func main() {
 		for _, server := range all {
 			conn, err := utils.LFDial(fmt.Sprintf("%v:%v", server.Identifier, server.Port))
 			if err != nil {
-				log.Fatalf("Unable to dial %v -> %v", server, err)
+				log.Printf("Unable to dial %v -> %v", server, err)
 			}
 			defer conn.Close()
 			client := pb.NewDStoreServiceClient(conn)
 			res, err := client.GetLatest(ctx, &pb.GetLatestRequest{Key: os.Args[2], Hash: key})
 			if err != nil {
-				log.Fatalf("Unable to read %v -> %v", server, err)
+				log.Printf("Unable to read %v -> %v", server, err)
 			}
 			fmt.Printf("%v [%v]: %v\n", server.Identifier, res.GetHash(), time.Unix(res.GetTimestamp(), 0))
 		}
