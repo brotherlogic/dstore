@@ -20,8 +20,10 @@ type DStoreClient struct {
 
 func (c *DStoreClient) Read(ctx context.Context, in *pb.ReadRequest, opts ...grpc.CallOption) (*pb.ReadResponse, error) {
 	if c.Test {
-		if val, ok := c.ErrorCode[in.GetKey()]; ok {
-			return nil, status.Errorf(val, "Request error")
+		if c.ErrorCode != nil {
+			if val, ok := c.ErrorCode[in.GetKey()]; ok {
+				return nil, status.Errorf(val, "Request error")
+			}
 		}
 
 		return &pb.ReadResponse{
