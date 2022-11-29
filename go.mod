@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/brotherlogic/datastore v0.0.0-20221128120426-2b8c2cde11f2
 	github.com/brotherlogic/goserver v0.0.0-20221106165541-0672428e3628
-	github.com/brotherlogic/recordcleaner v0.0.0-20221129061838-0effb786c072
+	github.com/brotherlogic/recordcleaner v0.0.0-20221129071940-4ad3dcfbd72e
 	github.com/golang/protobuf v1.5.2
 	github.com/prometheus/client_golang v1.14.0
 	golang.org/x/net v0.2.0
