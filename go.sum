@@ -622,8 +622,9 @@ github.com/brotherlogic/discovery v0.0.0-20221202082957-4e0d2e6391d7/go.mod h1:Z
 github.com/brotherlogic/discovery v0.0.0-20221202171430-382f267ade5b/go.mod h1:UUmtRYUTca+EoQVBVFW0y6IAxH+jF1QxUDIVA01+K1g=
 github.com/brotherlogic/discovery v0.0.0-20221202173710-b0a7944a6def/go.mod h1:473J8RmDgKg+HF9rlK83Wrkpt2OU2THLPiMLcs+C/40=
 github.com/brotherlogic/discovery v0.0.0-20221202173903-271018caa258/go.mod h1:IxFAH9LFyd6XC2YPXsWRCGgg/WbSINGFDn8zAXOVJOo=
-github.com/brotherlogic/discovery v0.0.0-20221203174552-89278fb9d2f6 h1:1WAwcCFpGZ+SZxONxpJdf/RC3OxzZOwJRGeGYzzmjaU=
 github.com/brotherlogic/discovery v0.0.0-20221203174552-89278fb9d2f6/go.mod h1:23Ul2z9h8cE2d4u3EZVmLN+W1sb2vDOxyAfMzHSiLlo=
+github.com/brotherlogic/discovery v0.0.0-20221203222051-db1b60dfd1d5 h1:1fCd1elKrOAbr4PQ3AtxQMh0bqnwPvGFO/2DZOdekMk=
+github.com/brotherlogic/discovery v0.0.0-20221203222051-db1b60dfd1d5/go.mod h1:1+XOMq6QnDTyGUL0xXXCF47saqid5NvzAwFrnxCFT7k=
 github.com/brotherlogic/dstore v0.0.0-20210705011309-803d7db560a6/go.mod h1:SJdI/5dxubp66yy6slmUfen5yCIKXFvAmMs71u9xVrk=
 github.com/brotherlogic/dstore v0.0.0-20210728181450-e87a34c62535/go.mod h1:bwiN0EPWhmDNwue1BWpCQ7DL4hLwfDwDw8JwMMgDzCs=
 github.com/brotherlogic/dstore v0.0.0-20210911232556-7a6844e1f86f/go.mod h1:Wilk+LrYLvE5+fNDXp0dYQNTMxhb6rmkwv5GwZ/K3ok=
@@ -674,6 +675,7 @@ github.com/brotherlogic/dstore v0.0.0-20221202163703-ee3f35d5fab1/go.mod h1:hRr5
 github.com/brotherlogic/dstore v0.0.0-20221202174111-253972a7851c/go.mod h1:8Kj9VUEJFH+4u21vDBhwR4IWdQXtHvvDbNmoU/ngIt8=
 github.com/brotherlogic/dstore v0.0.0-20221202190621-49dc2e96cf06/go.mod h1:pmoOdr1afRsej/OKZTZJe0/fN06CHYTzCyQtw3urybo=
 github.com/brotherlogic/dstore v0.0.0-20221202193328-ab16ed80e37e/go.mod h1:y9k7bj75Zh4ryid9hlb0lfkP7+0afmL8cN34k8n/mMI=
+github.com/brotherlogic/dstore v0.0.0-20221203222033-4263e271c2d4/go.mod h1:rUkX9Sdp/He//VR1EnuGS8+3DgdprVwdtOy9Q2HXCvk=
 github.com/brotherlogic/executor v0.0.0-20200915161204-3a99e1a889c5/go.mod h1:i/BkUS1evIqvvP1PQeiBpnOnju5VtzM8inv9hK2dWBo=
 github.com/brotherlogic/executor v0.0.0-20211120222045-7cd0d2d90a92/go.mod h1:6izXVRd9q/ZNjg+OFerYLjKzLO5odrXorHcgSo68r9Q=
 github.com/brotherlogic/executor v0.0.0-20211223152906-411e9ebe268b/go.mod h1:0cY8kq6JsfeTJb19frLQXGC/dRpYbOOOk1yvbj9+P1I=
