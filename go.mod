@@ -3,7 +3,7 @@ module github.com/brotherlogic/dstore
 go 1.17
 
 require (
-	github.com/brotherlogic/datastore v0.0.0-20221218001224-3f924673ed24
+	github.com/brotherlogic/datastore v0.0.0-20221218012719-e4407a211162
 	github.com/brotherlogic/goserver v0.0.0-20221217002224-0ba5c0213be1
 	github.com/brotherlogic/recordcleaner v0.0.0-20221211032732-5ec3b865771c
 	github.com/golang/protobuf v1.5.2
