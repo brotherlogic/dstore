@@ -21,7 +21,7 @@ require (
 	github.com/brotherlogic/gobuildslave v0.0.0-20230101061346-f609b4d6fd03 // indirect
 	github.com/brotherlogic/keystore v0.0.0-20230101043504-05ac1b6cfc9c // indirect
 	github.com/brotherlogic/lock v0.0.0-20230101070100-6c96d80824a8 // indirect
-	github.com/brotherlogic/logging v0.0.0-20230101064307-fa67fdb846cd // indirect
+	github.com/brotherlogic/logging v0.0.0-20230101070251-b46bb6369b2d // indirect
 	github.com/brotherlogic/monitor v0.0.0-20221025152653-c10877c5f9e6 // indirect
 	github.com/brotherlogic/versionserver v0.0.0-20221025154054-c9bcd41be2f2 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
