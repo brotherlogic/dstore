@@ -131,7 +131,7 @@ func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadRespons
 //Write writes out a key
 func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResponse, error) {
 	if !req.GetNoFanout() {
-		s.CtxLog(ctx, fmt.Sprintf("Writing %v as main", req.GetKey()))
+		s.CtxLog(ctx, fmt.Sprintf("writing %v as main", req.GetKey()))
 	}
 	t1 := time.Now()
 	defer func(run bool) {
