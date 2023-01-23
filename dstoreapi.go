@@ -182,7 +182,7 @@ func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResp
 					if err == nil {
 						client := pb.NewDStoreServiceClient(conn)
 						t2 := time.Now()
-						s.CtxLog(ctx, fmt.Sprintf("Writing %v as sub to %v", req.GetKey(), friend))
+						s.CtxLog(ctx, fmt.Sprintf("writing %v as sub to %v", req.GetKey(), friend))
 						_, err := client.Write(ctx, req)
 						subLatency.With(prometheus.Labels{"method": "WRITE", "client": friend}).Observe(float64(time.Since(t2).Milliseconds()))
 						if err == nil {
