@@ -4,8 +4,8 @@ go 1.18
 
 require (
 	github.com/brotherlogic/datastore v0.0.0-20230118231105-ee668be05973
-	github.com/brotherlogic/goserver v0.0.0-20230129181741-2ea18e2cbc31
-	github.com/brotherlogic/recordcleaner v0.0.0-20230125011121-aeedfa227e40
+	github.com/brotherlogic/goserver v0.0.0-20230201210316-c2d059b39936
+	github.com/brotherlogic/recordcleaner v0.0.0-20230203200249-64ae018d5dff
 	github.com/golang/protobuf v1.5.2
 	github.com/prometheus/client_golang v1.14.0
 	golang.org/x/net v0.5.0
@@ -15,13 +15,13 @@ require (
 
 require (
 	github.com/beorn7/perks v1.0.1 // indirect
-	github.com/brotherlogic/buildserver v0.0.0-20230127230943-7858efe83402 // indirect
-	github.com/brotherlogic/discovery v0.0.0-20230129182131-cd56f45c1f48 // indirect
-	github.com/brotherlogic/githubcard v0.0.0-20230127023747-27c0e83f71f8 // indirect
-	github.com/brotherlogic/gobuildslave v0.0.0-20230129203430-42b71a044131 // indirect
-	github.com/brotherlogic/keystore v0.0.0-20230127024524-a987822bb7b0 // indirect
-	github.com/brotherlogic/lock v0.0.0-20230129012225-5ba9e01895e1 // indirect
-	github.com/brotherlogic/logging v0.0.0-20230108082501-1829ce3e39d8 // indirect
+	github.com/brotherlogic/buildserver v0.0.0-20230203232408-02b29dca5360 // indirect
+	github.com/brotherlogic/discovery v0.0.0-20230205183007-0f1849fee07b // indirect
+	github.com/brotherlogic/githubcard v0.0.0-20230204004849-4a4ddb1f39a8 // indirect
+	github.com/brotherlogic/gobuildslave v0.0.0-20230205233639-0e016ec42031 // indirect
+	github.com/brotherlogic/keystore v0.0.0-20230203031455-4edff34793d7 // indirect
+	github.com/brotherlogic/lock v0.0.0-20230205014350-8afe1ffcd46d // indirect
+	github.com/brotherlogic/logging v0.0.0-20230201005903-054ed96ad352 // indirect
 	github.com/brotherlogic/monitor v0.0.0-20221025152653-c10877c5f9e6 // indirect
 	github.com/brotherlogic/versionserver v0.0.0-20221025154054-c9bcd41be2f2 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
@@ -39,5 +39,5 @@ require (
 	go.opentelemetry.io/otel/trace v1.12.0 // indirect
 	golang.org/x/sys v0.4.0 // indirect
 	golang.org/x/text v0.6.0 // indirect
-	google.golang.org/genproto v0.0.0-20230127162408-596548ed4efa // indirect
+	google.golang.org/genproto v0.0.0-20230202175211-008b39050e57 // indirect
 )
