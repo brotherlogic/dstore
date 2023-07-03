@@ -625,6 +625,7 @@ github.com/ProtonMail/go-crypto v0.0.0-20230426101702-58e86b294756/go.mod h1:8TI
 github.com/ProtonMail/go-crypto v0.0.0-20230518184743-7afd39499903/go.mod h1:8TI4H3IbrackdNgv+92dI+rhpCaLqM0IfpgCgenFvRE=
 github.com/ProtonMail/go-crypto v0.0.0-20230528122434-6f98819771a1/go.mod h1:EjAoLdwvbIOoOQr3ihjnSoLZRtE8azugULFRteWMNc0=
 github.com/ProtonMail/go-crypto v0.0.0-20230619160724-3fbb1f12458c/go.mod h1:EjAoLdwvbIOoOQr3ihjnSoLZRtE8azugULFRteWMNc0=
+github.com/ProtonMail/go-crypto v0.0.0-20230626094100-7e9e0395ebec/go.mod h1:EjAoLdwvbIOoOQr3ihjnSoLZRtE8azugULFRteWMNc0=
 github.com/PuerkitoBio/purell v1.1.1/go.mod h1:c11w/QuzBsJSee3cPx9rAFu61PvFxuPbtSwDGJws/X0=
 github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578/go.mod h1:uGdkoq3SwY9Y+13GIhn11/XLaGBb4BfwItxLd5jeuXE=
 github.com/Shopify/sarama v1.19.0/go.mod h1:FVkBWblsNy7DGZRfXLU0O9RCGt5g3g3yEuWXgklEdEo=
@@ -739,6 +740,7 @@ github.com/brotherlogic/builder v0.0.0-20230526050432-8c70feb28dbf/go.mod h1:APa
 github.com/brotherlogic/builder v0.0.0-20230602052331-03fc8accbc3b/go.mod h1:7uqS8tBZLUAIL0ap3KmTbfPBnYnfZJHGMSn6ubpAjLQ=
 github.com/brotherlogic/builder v0.0.0-20230609054645-b98d61957b9d/go.mod h1:NxB83+JEwqHRjsT8C0S2PkAmEbyt6SZkky9r2pL/ZOI=
 github.com/brotherlogic/builder v0.0.0-20230616061626-c47c3b0d60da/go.mod h1:pz2m3esKeVhaa33nGfJwTXllLmVEUGa0ZxqvDeATi9w=
+github.com/brotherlogic/builder v0.0.0-20230623064703-f1604659c12d/go.mod h1:iFeFZ3cvqG9P17sRDMSljnBbBZi5LO/cT+pCReM53z8=
 github.com/brotherlogic/buildserver v0.0.0-20201019183109-5b9d0c13b530/go.mod h1:ZAwx2ZhsKIo+MaMpoN7T8d3dgHO8mjCFDPB4wMBIFlE=
 github.com/brotherlogic/buildserver v0.0.0-20210310012628-b12a393fe88a/go.mod h1:ZAwx2ZhsKIo+MaMpoN7T8d3dgHO8mjCFDPB4wMBIFlE=
 github.com/brotherlogic/buildserver v0.0.0-20210311141809-ebce0d8f1d09/go.mod h1:ZAwx2ZhsKIo+MaMpoN7T8d3dgHO8mjCFDPB4wMBIFlE=
@@ -1254,6 +1256,7 @@ github.com/brotherlogic/filecopier v0.0.0-20230528034220-d76206c74aad/go.mod h1:
 github.com/brotherlogic/filecopier v0.0.0-20230604035442-7687f0160225/go.mod h1:OM+vba/Z4qcK4zCcZEAXCg3TQ9ESOnsrLqS+nhl7GB8=
 github.com/brotherlogic/filecopier v0.0.0-20230611040622-1ed63521c5e7/go.mod h1:Sb32Qm2F9Yw7wO2h6NQLaqTL1nKLTzvbxE5m0RURGZA=
 github.com/brotherlogic/filecopier v0.0.0-20230618041514-34f2e3ac2ddb/go.mod h1:cIKvL0A8LUdEZ42VmOVf+Rehy5CJaBqyNtSRf8LGzOg=
+github.com/brotherlogic/filecopier v0.0.0-20230625043538-64178a4478c5/go.mod h1:nDDfptQKGx4vjmlE9Pl9ZXINwNRUWAFHfhsVN15CmZk=
 github.com/brotherlogic/frametracker v0.0.0-20210108214332-61d86ee8f701/go.mod h1:21Eaa47nKHk1Ab77YyOhBdQ6cxKMvKf+9x96UL0wnhs=
 github.com/brotherlogic/frametracker v0.0.0-20220308202045-6632250e217e/go.mod h1:l52l94odEuoKaFmZxFUQ6A+p/AMD0KRY+J4E2V8mwyY=
 github.com/brotherlogic/frametracker v0.0.0-20220514055242-c87e03b44946/go.mod h1:9wXLjwHIBgssdHeWSzgcejaqu08Vmo1i2/Rk4fJ/Kxg=
@@ -1833,8 +1836,9 @@ github.com/brotherlogic/lock v0.0.0-20230529052859-d7f9e8276725/go.mod h1:/LtXXT
 github.com/brotherlogic/lock v0.0.0-20230605063014-e8b9469923a1/go.mod h1:w6cTUIKFFYRvZ6W6eoK/SyYDB+Sd5rZB8AfyU5IDlRA=
 github.com/brotherlogic/lock v0.0.0-20230612074258-113922a25aaf/go.mod h1:nlYUOwoYeXu6WkPMBbwv1IzA2ca7A9JxvFpeWWXs2To=
 github.com/brotherlogic/lock v0.0.0-20230619075804-2d357d1c2ed4/go.mod h1:4VfTEWAlMgfYAY22+bgvjCgtiwXFZRitFZlXVBfjtRU=
-github.com/brotherlogic/lock v0.0.0-20230626083159-dc709df45702 h1:NbBqvXu3FJvbUWpf3Lg3JpCFbjQ1teyaZQB3xBVqPpc=
 github.com/brotherlogic/lock v0.0.0-20230626083159-dc709df45702/go.mod h1:E6BMRqDopL/UnCglAU1v/2fn0fRelj1mywkxBOEh5SE=
+github.com/brotherlogic/lock v0.0.0-20230703090618-9ca68550fb77 h1:xMH0wK8DdOVbIVnEMGr8x47CyXT24hhzej1tThytQ18=
+github.com/brotherlogic/lock v0.0.0-20230703090618-9ca68550fb77/go.mod h1:iNW8r+BgOPBMm4pvn2u1izyjr/Zsskk10FIsZRutY6A=
 github.com/brotherlogic/logging v0.0.0-20200903150238-67a07e215efe/go.mod h1:cHEM7v1fl8VwwyN4qcrh8hQHR+XNT+xHI4+yOr4l8Wg=
 github.com/brotherlogic/logging v0.0.0-20210606012857-db059830d1dc/go.mod h1:FOXFywySb2dOOhsEFIwxniCxGJltgA395Dhzp2lFXYI=
 github.com/brotherlogic/logging v0.0.0-20210609015032-e6d0ef792137/go.mod h1:FOXFywySb2dOOhsEFIwxniCxGJltgA395Dhzp2lFXYI=
@@ -2020,6 +2024,7 @@ github.com/brotherlogic/proxy v0.0.0-20230529052746-dbb40925c8e5/go.mod h1:BOOCe
 github.com/brotherlogic/proxy v0.0.0-20230605063000-493ae1cf355e/go.mod h1:RpOzbnxte7HwiwdKYaHmSTsl037HUDFc5ka2rk+i3dI=
 github.com/brotherlogic/proxy v0.0.0-20230612074148-e0cd3d051e6a/go.mod h1:+v7hMpZ0CbEr2cgXHsMZQqDaaQHiKOkmyjK017MAVEk=
 github.com/brotherlogic/proxy v0.0.0-20230619075729-624b74ed3cd6/go.mod h1:uRwR3FtJkCQPxwKi3Xr3N2lsRwvRlBS+HLQ8CzV66KU=
+github.com/brotherlogic/proxy v0.0.0-20230626083252-5120e81fefc9/go.mod h1:QtoYtH9D72ls77sBlTiwme8N8LlhuReayE+vIdKAE1U=
 github.com/brotherlogic/queue v0.0.0-20210813201419-6df33cf9eede/go.mod h1:RrsLrk42+xpC+TR2TmjL4n2x1siyK+a/Q0+LIOft+Ms=
 github.com/brotherlogic/queue v0.0.0-20210817145436-1671bad91005/go.mod h1:zsPF4yqtXR3FMZRuLt19eUv/c67rp/akJEfRB1d/tKM=
 github.com/brotherlogic/queue v0.0.0-20210820221638-bae4d8215dd1/go.mod h1:ZEtH1myaD44Gv8lw8U2x01GJkSV6Kav+xOk6gcMzMOo=
@@ -2904,6 +2909,7 @@ github.com/brotherlogic/versiontracker v0.0.0-20230529040713-177f62dd55f5/go.mod
 github.com/brotherlogic/versiontracker v0.0.0-20230605041314-cf8f32f4c543/go.mod h1:yf8O2Mdf+069o5RxeHQ4BElz9OTLNLuX4tzDexCKhV0=
 github.com/brotherlogic/versiontracker v0.0.0-20230612042122-830d2aabf408/go.mod h1:ZnEv7em0yy7tjTBJmZJARSkzJ7IvIrc6eEYk4UUTO4U=
 github.com/brotherlogic/versiontracker v0.0.0-20230619160526-fa4bb2928113/go.mod h1:FoKuiaspFMNzf7SJ7i3Gs0fJfuGfRs1dxPf5De/NpFs=
+github.com/brotherlogic/versiontracker v0.0.0-20230626162734-7f5b49078b02/go.mod h1:55fnYejSQV63KkYjDorF++MYr65feDFYVyNC9MJHFNE=
 github.com/buger/jsonparser v1.1.1/go.mod h1:6RYKKt7H4d4+iWqouImQ9R2FZql3VbhNgx27UK13J/0=
 github.com/bwesterb/go-ristretto v1.2.0/go.mod h1:fUIoIZaG73pV5biE2Blr2xEzDoMj7NFEuV9ekS419A0=
 github.com/bwesterb/go-ristretto v1.2.2/go.mod h1:fUIoIZaG73pV5biE2Blr2xEzDoMj7NFEuV9ekS419A0=
