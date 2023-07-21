@@ -48,7 +48,7 @@ func (s *Server) GetLatest(ctx context.Context, req *pb.GetLatestRequest) (*pb.G
 	return &pb.GetLatestResponse{Hash: resp.GetHash(), Timestamp: resp.GetTimestamp()}, nil
 }
 
-//Read reads out some data
+// Read reads out some data
 func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadResponse, error) {
 	t1 := time.Now()
 	defer func(run bool) {
@@ -128,13 +128,14 @@ func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadRespons
 	return retResp, nil
 }
 
-//Write writes out a key
+// Write writes out a key
 func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResponse, error) {
 	if !req.GetNoFanout() {
 		s.CtxLog(ctx, fmt.Sprintf("writing %v as main", req.GetKey()))
 	}
 	t1 := time.Now()
 	defer func(run bool) {
+		s.CtxLog(ctx, fmt.Sprintf("Took %v as %v", time.Since(t1), run))
 		if run {
 			mainLatency.With(prometheus.Labels{"method": "WRITE"}).Observe(float64(time.Since(t1).Milliseconds()))
 		}
@@ -173,11 +174,13 @@ func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResp
 	s.writeLock.Unlock()
 	count := 1
 	if !req.NoFanout {
+		times := make(map[string]time.Duration)
 		friends, err := s.FFind(ctx, "dstore")
 		if err == nil {
 			req.NoFanout = true
 			for _, friend := range friends {
 				if !strings.HasPrefix(friend, s.Registry.GetIdentifier()) {
+					tt := time.Now()
 					conn, err := s.FDial(friend)
 					if err == nil {
 						client := pb.NewDStoreServiceClient(conn)
@@ -187,6 +190,7 @@ func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResp
 						subLatency.With(prometheus.Labels{"method": "WRITE", "client": friend}).Observe(float64(time.Since(t2).Milliseconds()))
 						if err == nil {
 							count++
+							times[friend] = time.Since(tt)
 						}
 						conn.Close()
 					}
@@ -196,7 +200,7 @@ func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResp
 
 		write_consensus.With(prometheus.Labels{"key": req.GetKey()}).Set(float64(float32(count) / float32(len(friends))))
 
-		s.CtxLog(ctx, fmt.Sprintf("Written %v in %v", req.GetKey(), time.Since(t1)))
+		s.CtxLog(ctx, fmt.Sprintf("Written %v in %v (%v) -> %v", req.GetKey(), time.Since(t1), req.GetNoFanout(), times))
 		return &pb.WriteResponse{
 			Consensus: float32(count) / float32(len(friends)),
 			Hash:      hash,
