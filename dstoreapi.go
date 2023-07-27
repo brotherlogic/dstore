@@ -11,6 +11,7 @@ import (
 	"google.golang.org/grpc/status"
 
 	pb "github.com/brotherlogic/dstore/proto"
+	"github.com/brotherlogic/goserver/utils"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
 )
@@ -201,6 +202,10 @@ func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResp
 		write_consensus.With(prometheus.Labels{"key": req.GetKey()}).Set(float64(float32(count) / float32(len(friends))))
 
 		s.CtxLog(ctx, fmt.Sprintf("Written %v in %v (%v) -> %v", req.GetKey(), time.Since(t1), req.GetNoFanout(), times))
+		if !req.GetNoFanout() && time.Since(t1) > time.Second {
+			key, err := utils.GetContextKey(ctx)
+			s.RaiseIssue("Slow D Write", fmt.Sprintf("%v (%v) was a slow write (%v)", key, err, time.Since(t1)))
+		}
 		return &pb.WriteResponse{
 			Consensus: float32(count) / float32(len(friends)),
 			Hash:      hash,
