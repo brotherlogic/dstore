@@ -202,7 +202,7 @@ func (s *Server) Write(ctx context.Context, req *pb.WriteRequest) (*pb.WriteResp
 		write_consensus.With(prometheus.Labels{"key": req.GetKey()}).Set(float64(float32(count) / float32(len(friends))))
 
 		s.CtxLog(ctx, fmt.Sprintf("Written %v in %v (%v) -> %v", req.GetKey(), time.Since(t1), req.GetNoFanout(), times))
-		if !req.GetNoFanout() && time.Since(t1) > time.Second {
+		if !req.GetNoFanout() && time.Since(t1) > time.Millisecond*500 {
 			key, err := utils.GetContextKey(ctx)
 			s.RaiseIssue("Slow D Write", fmt.Sprintf("%v (%v) was a slow write (%v)", key, err, time.Since(t1)))
 		}
