@@ -60,6 +60,7 @@ func (s *Server) writeToDir(ctx context.Context, dir, file string, toWrite *pb.R
 	} else if err != nil {
 		return err
 	}
+	s.CtxLog(ctx, fmt.Sprintf("Written %v", filepath))
 
 	// We need to reset the err here
 	err = nil
