@@ -117,6 +117,7 @@ func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadRespons
 
 	// If we've read nothing return not found
 	if bestHash == "" {
+		s.CtxLog(ctx, fmt.Sprintf("Unable to read %v -> %v", req, err))
 		return nil, status.Errorf(codes.InvalidArgument, "Cannot locate %v", req.GetKey())
 	}
 
