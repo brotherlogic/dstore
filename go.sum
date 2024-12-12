@@ -6,8 +6,8 @@ github.com/brotherlogic/datastore v0.0.0-20241208194408-d9abbc5752ad h1:UXWe2pCM
 github.com/brotherlogic/datastore v0.0.0-20241208194408-d9abbc5752ad/go.mod h1:+/Tco2AH9FkWy8bfYWghx/7BwpfzCxLrVejr5YMogas=
 github.com/brotherlogic/discovery v0.0.0-20241109204028-02908558af09 h1:/G6RM6m/hLY/LbVw2mNcbeUxms5zNE2c0F72Z8ZI8HU=
 github.com/brotherlogic/discovery v0.0.0-20241109204028-02908558af09/go.mod h1:ih6YWeSvJfqZHdtPujz/mbs2fdnLD9HKVnPYplvriEY=
-github.com/brotherlogic/githubcard v0.0.0-20241209170832-305e56ad1d12 h1:w/dxyv8L3uTcKn558wjWgmkrmIhZv2X7IDy87AjK8bM=
-github.com/brotherlogic/githubcard v0.0.0-20241209170832-305e56ad1d12/go.mod h1:mycxcaON6cqQQ91IP47AjrYv5+Bl6Xi/SnxT9YspYC8=
+github.com/brotherlogic/githubcard v0.0.0-20241212004533-a1205378e6b4 h1:C51Iqq52sARY9agaw2pfh6qsx0nNDC8ZZy0fRPQZ0sU=
+github.com/brotherlogic/githubcard v0.0.0-20241212004533-a1205378e6b4/go.mod h1:4u9FkOm5dWMokomoGtQDr7QJGI3rpVwzY/ACam/wgkg=
 github.com/brotherlogic/githubridge v0.2824.0 h1:LJqWgAgM4lWQwwZft/Aqq33sDXUPHq23FrG7WCOhiGQ=
 github.com/brotherlogic/githubridge v0.2824.0/go.mod h1:SRsJ/bqK7bGMI4Fe3MCJqFwga1ZoSVbrjZMJIaoRUUA=
 github.com/brotherlogic/gobuildslave v0.0.0-20241111085829-8d4e5069a7fd h1:KzJ2qjTvIW7NtUavqJaSxTUMHW1zNf/FjU1RqAVggNw=
