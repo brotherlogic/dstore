@@ -94,6 +94,7 @@ func (s *Server) cleanDir(ctx context.Context, key string) error {
 		})
 
 		for i := 0; i < len(files)-1000; i++ {
+			s.CtxLog(ctx, fmt.Sprintf("Deleting %v because %v", files[i].Name(), files[i].ModTime()))
 			err = os.Remove(s.basepath + key + "/" + files[i].Name())
 		}
 	}
