@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 	"sort"
+	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
@@ -59,6 +60,13 @@ func (s *Server) writeToDir(ctx context.Context, dir, file string, toWrite *pb.R
 		}
 	} else if err != nil {
 		return err
+	} else {
+		// Here adjust the mod time to ensure the file is not deleted
+		newModTime := time.Now()
+		err = os.Chtimes(filepath, newModTime, newModTime)
+		if err != nil {
+			return err
+		}
 	}
 	s.CtxLog(ctx, fmt.Sprintf("Written %v", filepath))
 
