@@ -20,7 +20,7 @@ func (s *Server) deleteFile(dir, file string) {
 	//s.Log(fmt.Sprintf("Removing %v%v -> %v", dir, file, os.Remove(s.basepath+dir+file)))
 }
 
-func (s *Server) readFile(key, hash string) (*pb.ReadResponse, error) {
+func (s *Server) readFile(ctx context.Context, key, hash string) (*pb.ReadResponse, error) {
 	data, err := ioutil.ReadFile(s.basepath + key + "/" + hash)
 
 	if err != nil {
@@ -29,6 +29,13 @@ func (s *Server) readFile(key, hash string) (*pb.ReadResponse, error) {
 		}
 
 		return nil, err
+	}
+
+	if hash == "latest" {
+		target, err := os.Readlink(s.basepath + key + "/" + hash)
+		if err == nil {
+			s.CtxLog(ctx, fmt.Sprintf("Read %v", target))
+		}
 	}
 
 	result := &pb.ReadResponse{}
