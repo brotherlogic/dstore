@@ -42,7 +42,7 @@ func (s *Server) GetLatest(ctx context.Context, req *pb.GetLatestRequest) (*pb.G
 	if req.GetHash() != "" {
 		key = req.GetHash()
 	}
-	resp, err := s.readFile(req.GetKey(), key)
+	resp, err := s.readFile(ctx, req.GetKey(), key)
 	if err != nil {
 		return nil, err
 	}
@@ -63,7 +63,7 @@ func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadRespons
 		req.Hash = "latest"
 	}
 
-	resp, err := s.readFile(req.GetKey(), req.GetHash())
+	resp, err := s.readFile(ctx, req.GetKey(), req.GetHash())
 
 	hashMap := make(map[string]*pb.ReadResponse)
 	countMap := make(map[string]int)
