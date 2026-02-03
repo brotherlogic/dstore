@@ -53,6 +53,7 @@ func (s *Server) GetLatest(ctx context.Context, req *pb.GetLatestRequest) (*pb.G
 func (s *Server) Read(ctx context.Context, req *pb.ReadRequest) (*pb.ReadResponse, error) {
 	t1 := time.Now()
 	defer func(run bool) {
+		s.CtxLog(ctx, fmt.Sprintf("Read %v in %v", req.GetKey(), time.Since(t1)))
 		if run {
 			mainLatency.With(prometheus.Labels{"method": "READ"}).Observe(float64(time.Since(t1).Milliseconds()))
 		}
